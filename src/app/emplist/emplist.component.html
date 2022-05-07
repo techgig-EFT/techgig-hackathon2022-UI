@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of filteredEmployees;let i=index">
+      <tr *ngFor="let employee of filteredEmployees; let i = index">
         <th scope="row">{{ employee.empid }}</th>
         <td *ngIf="employee.empid == loginUser" style="color: blue">
           {{ employee.name | uppercase }}
@@ -36,9 +36,9 @@
           <em-star [rating]="employee.performance"></em-star>
         </td>
         <td *ngIf="employee.empid == loginUser">
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,i)"
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid, i)"
             *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
-          <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(employee.empid,i)"
+          <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(employee.empid, i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
 
           <button class="bi bi-mic-fill btn btn-info" (click)="initiateRecording(employee.empid)" *ngIf="!recording"
@@ -47,25 +47,36 @@
             data-toggle="tooltip" data-placement="top" title="Stop Recording"></button>
           &nbsp;
 
-          <button class="bi bi-plus-circle btn btn-info" data-toggle="tooltip" *ngIf="!updatePreferredName" data-placement="top"
-            title="Add/update preferred name" (click)="updatePreferredName = !updatePreferredName"></button>
-            <button class="bi bi-plus-circle btn btn-danger" data-toggle="tooltip" *ngIf="updatePreferredName" data-placement="top"
-            title="Cancel update preferred name" (click)="updatePreferredName = !updatePreferredName"></button>&nbsp;
+          <button class="bi bi-plus-circle btn btn-info" data-toggle="tooltip" *ngIf="!updatePreferredName"
+            data-placement="top" title="Add/update preferred name"
+            (click)="updatePreferredName = !updatePreferredName"></button>
+          <button class="bi bi-plus-circle btn btn-danger" data-toggle="tooltip" *ngIf="updatePreferredName"
+            data-placement="top" title="Cancel update preferred name"
+            (click)="updatePreferredName = !updatePreferredName"></button>&nbsp;
 
-          <button class="bi bi-clock-history btn btn-info" data-toggle="tooltip" *ngIf="!updatePhonetic" data-placement="top"
-            title="Update name phonetics" (click)="updatePhonetic = !updatePhonetic"></button>  
-          <button class="bi bi-clock-history btn btn-danger" data-toggle="tooltip" *ngIf="updatePhonetic" data-placement="top"
-            title="Cancel update name phonetics" (click)="updatePhonetic = !updatePhonetic"></button>
+          <button class="bi bi-clock-history btn btn-info" data-toggle="tooltip" *ngIf="!updatePhonetic"
+            data-placement="top" title="Update name phonetics" (click)="updatePhonetic = !updatePhonetic"></button>
+          <button class="bi bi-clock-history btn btn-danger" data-toggle="tooltip" *ngIf="updatePhonetic"
+            data-placement="top" title="Cancel update name phonetics"
+            (click)="updatePhonetic = !updatePhonetic"></button>
           <p></p>
 
           <div *ngIf="pronounce[i]">
             <div *ngIf="employee.recordedPronunciation">
-              <p *ngIf="employee.preferredNameDefault">Current Employee provided pronunciation(Preferred Name)</p>
-              <p *ngIf="!employee.preferredNameDefault">Current Employee provided pronunciation(Original Name)</p>
+              <p *ngIf="employee.preferredNameDefault">
+                Current Employee provided pronunciation(Preferred Name)
+              </p>
+              <p *ngIf="!employee.preferredNameDefault">
+                Current Employee provided pronunciation(Original Name)
+              </p>
             </div>
             <div *ngIf="!employee.recordedPronunciation">
-              <p *ngIf="employee.preferredNameDefault">System provided pronunciation(Preferred Name)</p>
-              <p *ngIf="!employee.preferredNameDefault">System provided pronunciation(Original Name)</p>
+              <p *ngIf="employee.preferredNameDefault">
+                System provided pronunciation(Preferred Name)
+              </p>
+              <p *ngIf="!employee.preferredNameDefault">
+                System provided pronunciation(Original Name)
+              </p>
             </div>
             <audio controls="">
               <source type="audio/wav" />
@@ -75,8 +86,12 @@
           <p></p>
 
           <div *ngIf="recording">
-            <p *ngIf="employee.preferredNameDefault">New Recorded Employee provided pronunciation(Preferred Name)</p>
-            <p *ngIf="!employee.preferredNameDefault">New Recorded Employee provided pronunciation(Original Name)</p>
+            <p *ngIf="employee.preferredNameDefault">
+              New Recorded Employee provided pronunciation(Preferred Name)
+            </p>
+            <p *ngIf="!employee.preferredNameDefault">
+              New Recorded Employee provided pronunciation(Original Name)
+            </p>
             <audio controls="">
               <source type="audio/wav" />
             </audio>
@@ -90,7 +105,7 @@
               <input type="text" class="form-control" name="preferredname" id="preferredname"
                 placeholder="Enter Preferred name" #classtest ngModel />
             </div>
-
+            <p></p>
             <div class="form-group" *ngIf="updatePreferredName">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="preferredNameDefault" id="preferredNameDefault"
@@ -98,7 +113,7 @@
                 <label class="form-check-label">Set preferred name as default</label>
               </div>
             </div>
-
+            <p></p>
             <div class="form-group" *ngIf="updatePhonetic">
               <p>Current Phonetic: {{ employee.phonetic }}</p>
               <input type="text" class="form-control" name="phonetic" id="phonetic" placeholder="Enter Phonetic"
@@ -110,19 +125,29 @@
               Update</button>&nbsp;
           </form>
         </td>
+
         <td *ngIf="employee.empid != loginUser">
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,i)"
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid, i)"
             *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
-          <button class="bi bi-volume-up-fill btn btn-info" (click)="stopPronounceName(employee.empid,i)"
+          <button class="bi bi-volume-up-fill btn btn-info" (click)="stopPronounceName(employee.empid, i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
+          <p></p>
           <div *ngIf="pronounce[i]">
             <div *ngIf="employee.recordedPronunciation">
-              <p *ngIf="employee.preferredNameDefault">Current Employee provided pronunciation(Preferred Name)</p>
-              <p *ngIf="!employee.preferredNameDefault">Current Employee provided pronunciation(Original Name)</p>
+              <p *ngIf="employee.preferredNameDefault">
+                Current Employee provided pronunciation(Preferred Name)
+              </p>
+              <p *ngIf="!employee.preferredNameDefault">
+                Current Employee provided pronunciation(Original Name)
+              </p>
             </div>
             <div *ngIf="!employee.recordedPronunciation">
-              <p *ngIf="employee.preferredNameDefault">System provided pronunciation(Preferred Name)</p>
-              <p *ngIf="!employee.preferredNameDefault">System provided pronunciation(Original Name)</p>
+              <p *ngIf="employee.preferredNameDefault">
+                System provided pronunciation(Preferred Name)
+              </p>
+              <p *ngIf="!employee.preferredNameDefault">
+                System provided pronunciation(Original Name)
+              </p>
             </div>
             <audio controls="">
               <source type="audio/wav" />
