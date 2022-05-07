@@ -10,6 +10,7 @@
             [(ngModel)]="empdet.empid" required #classtest />
         </div>
       </div>
+      <p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="empname"><b>Employee name:</b></label>
         <div class="col-sm-10" style="display: flex">
@@ -29,6 +30,7 @@
               (click)="stopRecording(empdet.empid)" *ngIf="recording" title="Stop recording"></button>
           </div>
         </div>
+        <div *ngIf="!empdet.preferredNameDefault">
         <div class="col-sm-10" *ngIf="pronounce">
           <div>
             <p>System provided pronunciation(Original Name)</p>
@@ -45,7 +47,8 @@
           </audio>
         </div>
       </div>
-
+      </div>
+<p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="empmob"><b>Employee Mobile number:</b></label>
         <div class="col-sm-10">
@@ -53,7 +56,7 @@
             [(ngModel)]="empdet.contact" required pattern="[0-9]{10}" />
         </div>
       </div>
-
+<p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="loc"><b>Location:</b></label>
         <div class="col-sm-10">
@@ -64,7 +67,7 @@
           </select>
         </div>
       </div>
-
+<p></p>
       <label class="control-label col-sm-2"><b>Gender:</b></label>
       <div class="col-sm-10">
         <div class="form-check">
@@ -92,7 +95,7 @@
         </div>
       </div>
       <br />
-
+<p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="preferredName"><b>Preferred Name:</b></label>
         <div class="col-sm-10" style="display: flex">
@@ -112,7 +115,7 @@
               (click)="stopRecording(empdet.empid)" *ngIf="recording" title="Stop recording"></button>
           </div>
         </div>
-
+<div *ngIf="empdet.preferredNameDefault">
         <div class="col-sm-10" *ngIf="pronounce">
           <div>
             <p>System provided pronunciation(Preferred Name)</p>
@@ -129,20 +132,22 @@
           </audio>
         </div>
       </div>
+    </div>
+<p></p>
 
       <div class="form-group">
-        <label class="control-label col-sm-2" for="preferredName"><b>Provide default name (Please record pronunciation
+        <label class="control-label col-sm-10" for="preferredName"><b>Provide default name (Please record pronunciation
             or verify
             existing pronunciation of preferred name when checked):</b></label>
         <div class="col-sm-10">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="preferredNameDefault" id="preferredNameDefault"
-              [(ngModel)]="empdet.preferredNameDefault" />
+              [(ngModel)]="empdet.preferredNameDefault" (change)="pronounce=false;recording=false;" />
             <label class="form-check-label">Set preferred name as default</label>
           </div>
         </div>
       </div>
-
+<p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="phonetic"><b>Phonetic:</b></label>
         <div class="col-sm-10">
@@ -150,7 +155,7 @@
             [(ngModel)]="empdet.phonetic" />
         </div>
       </div>
-
+<p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="notes"><b>Notes:</b></label>
         <div class="col-sm-10">
