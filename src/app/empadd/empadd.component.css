@@ -1,0 +1,26 @@
+body {
+    overflow:auto;
+}
+.container {
+    height: 200px;
+    position: relative;
+    border: 3px solid green;
+  }
+  
+  .vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align:center
+  }
+  form{
+    padding: 8px; /*makes it look neat*/
+    border-radius: 4px; /*or 2px*/
+    background-color:#f4f0ed;
+  }
+  
+.ng-invalid:not(form).ng-touched{
+    border:2px solid red
+}
