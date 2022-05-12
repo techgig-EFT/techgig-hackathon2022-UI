@@ -24,10 +24,10 @@
       <tr *ngFor="let employee of filteredEmployees; let i = index">
         <th scope="row">{{ employee.empid }}</th>
         <td *ngIf="employee.empid == loginUser" style="color: blue">
-          {{ employee.name | uppercase }}
+          {{ employee.empname | uppercase }}
         </td>
         <td *ngIf="employee.empid != loginUser">
-          {{ employee.name | uppercase }}
+          {{ employee.empname | uppercase }}
         </td>
         <td>{{ employee.location }}</td>
         <td>{{ employee.contact }}</td>
@@ -36,14 +36,18 @@
           <em-star [rating]="employee.performance"></em-star>
         </td>
         <td *ngIf="employee.empid == loginUser">
+<<<<<<< Updated upstream
           <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid, i)"
+=======
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)"
+>>>>>>> Stashed changes
             *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
-          <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(employee.empid, i)"
+          <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(employee.empid,i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
 
           <button class="bi bi-mic-fill btn btn-info" (click)="initiateRecording(employee.empid)" *ngIf="!recording"
             data-toggle="tooltip" data-placement="top" title="Record pronunciation"></button>
-          <button class="bi bi-mic-fill btn btn-danger" (click)="stopRecording(employee.empid)" *ngIf="recording"
+          <button class="bi bi-mic-fill btn btn-danger" (click)="stopRecording(employee.empid,employee.preferredNameDefault)" *ngIf="recording"
             data-toggle="tooltip" data-placement="top" title="Stop Recording"></button>
           &nbsp;
 
@@ -127,7 +131,11 @@
         </td>
 
         <td *ngIf="employee.empid != loginUser">
+<<<<<<< Updated upstream
           <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid, i)"
+=======
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)"
+>>>>>>> Stashed changes
             *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
           <button class="bi bi-volume-up-fill btn btn-info" (click)="stopPronounceName(employee.empid, i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
