@@ -3,15 +3,12 @@ import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { EmplistService } from './emplist.service';
 import { IEmployee } from './employees';
-<<<<<<< Updated upstream
-=======
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser'; 
+import { SpeechConfig } from 'microsoft-cognitiveservices-speech-sdk';
 //Find your key and resource region under the 'Keys and Endpoint' tab in your Speech resource in Azure Portal
 //Remember to delete the brackets <> when pasting your key and region!
 const speechConfig = SpeechConfig.fromSubscription("89cdac66a8fc48348a331c52a8fa4de7","eastus");
-
->>>>>>> Stashed changes
 @Component({
   selector: 'app-emplist',
   templateUrl: './emplist.component.html',

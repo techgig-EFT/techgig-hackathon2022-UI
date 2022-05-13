@@ -36,12 +36,8 @@
           <em-star [rating]="employee.performance"></em-star>
         </td>
         <td *ngIf="employee.empid == loginUser">
-<<<<<<< Updated upstream
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid, i)"
-=======
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)"
->>>>>>> Stashed changes
-            *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
+
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)" *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
           <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(employee.empid,i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
 
@@ -131,11 +127,7 @@
         </td>
 
         <td *ngIf="employee.empid != loginUser">
-<<<<<<< Updated upstream
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid, i)"
-=======
           <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)"
->>>>>>> Stashed changes
             *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
           <button class="bi bi-volume-up-fill btn btn-info" (click)="stopPronounceName(employee.empid, i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
