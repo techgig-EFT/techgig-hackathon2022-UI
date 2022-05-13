@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AudioConfig, SpeechConfig, SpeechSynthesizer } from 'microsoft-cognitiveservices-speech-sdk';
 import { Observable, Subscription } from 'rxjs';
 import { EmplistService } from './emplist.service';
 import { IEmployee } from './employees';
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser'; 
-import { SpeechConfig } from 'microsoft-cognitiveservices-speech-sdk';
 //Find your key and resource region under the 'Keys and Endpoint' tab in your Speech resource in Azure Portal
 //Remember to delete the brackets <> when pasting your key and region!
 const speechConfig = SpeechConfig.fromSubscription("89cdac66a8fc48348a331c52a8fa4de7","eastus");
+
 @Component({
   selector: 'app-emplist',
   templateUrl: './emplist.component.html',
@@ -39,8 +40,25 @@ export class EmplistComponent implements OnInit, OnDestroy {
   updatePhonetic: boolean = false;
   loginUser = '23890';
 
-  pronounceName(employeeId: string, index: number) {
+  pronounceName(employeeId: string,employeeName:string, index: number) {
     this.pronounce[index] = true;
+    const audioConfig = AudioConfig.fromDefaultSpeakerOutput();
+    const synthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
+
+    synthesizer.speakTextAsync(
+      employeeName,
+        result => {
+            if (result) {
+                console.log(JSON.stringify(result));
+            }
+            synthesizer.close();
+            this.pronounce[index] = false;
+        },
+        error => {
+            console.log(error);
+            synthesizer.close();
+        });
+        
   }
 
   stopPronounceName(employeeId: string, index: number) {
