@@ -37,7 +37,7 @@
         </td>
         <td *ngIf="employee.empid == loginUser">
 
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)" *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee, i)" *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
           <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(employee.empid,i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
 
@@ -61,7 +61,7 @@
             (click)="updatePhonetic = !updatePhonetic"></button>
           <p></p>
 
-          <div *ngIf="pronounce[i]">
+          <div *ngIf="pronounce[i] && pronunciation[i]">
             <div *ngIf="employee.recordedPronunciation">
               <p *ngIf="employee.preferredNameDefault">
                 Current Employee provided pronunciation(Preferred Name)
@@ -79,13 +79,13 @@
               </p>
             </div>
             <audio controls="">
-              <source type="audio/wav" />
+              <source [src]="sanitize(pronunciation[i])" type="audio/wav" />
             </audio>
           </div>
 
           <p></p>
 
-          <div *ngIf="recording">
+          <div *ngIf="!recording && url">
             <p *ngIf="employee.preferredNameDefault">
               New Recorded Employee provided pronunciation(Preferred Name)
             </p>
@@ -93,17 +93,17 @@
               New Recorded Employee provided pronunciation(Original Name)
             </p>
             <audio controls="">
-              <source type="audio/wav" />
+              <source [src]="sanitize(url)" type="audio/wav" />
             </audio>
           </div>
-          <form id="updateform" #form="ngForm" class="form-horizontal" (ngSubmit)="onSubmit(form)" ngNativeValidate
+          <form id="updateform" #form="ngForm" class="form-horizontal" (ngSubmit)="onSubmit(form,employee.empid)" ngNativeValidate
             *ngIf="updatePreferredName || updatePhonetic">
             <p></p>
 
             <div class="form-group" *ngIf="updatePreferredName">
               <p>Current Preferred Name: {{ employee.preferredname }}</p>
               <input type="text" class="form-control" name="preferredname" id="preferredname"
-                placeholder="Enter Preferred name" #classtest ngModel />
+                placeholder="Enter Preferred name" #classtest [ngModel]="employee.preferredname" />
             </div>
             <p></p>
             <div class="form-group" *ngIf="updatePreferredName">
@@ -117,7 +117,7 @@
             <div class="form-group" *ngIf="updatePhonetic">
               <p>Current Phonetic: {{ employee.phonetic }}</p>
               <input type="text" class="form-control" name="phonetic" id="phonetic" placeholder="Enter Phonetic"
-                ngModel />
+              [ngModel]="employee.phonetic" />
             </div>
             <p></p>
 
@@ -127,12 +127,12 @@
         </td>
 
         <td *ngIf="employee.empid != loginUser">
-          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee.empid,employee.empname, i)"
+          <button class="bi bi-volume-up-fill btn btn-primary" (click)="pronounceName(employee, i)"
             *ngIf="!pronounce[i]" data-toggle="tooltip" data-placement="top" title="Pronounce name"></button>
           <button class="bi bi-volume-up-fill btn btn-info" (click)="stopPronounceName(employee.empid, i)"
             *ngIf="pronounce[i]" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>&nbsp;
           <p></p>
-          <div *ngIf="pronounce[i]">
+          <div *ngIf="pronounce[i] && pronunciation[i]">
             <div *ngIf="employee.recordedPronunciation">
               <p *ngIf="employee.preferredNameDefault">
                 Current Employee provided pronunciation(Preferred Name)
@@ -150,7 +150,7 @@
               </p>
             </div>
             <audio controls="">
-              <source type="audio/wav" />
+              <source [src]="sanitize(pronunciation[i])" type="audio/wav" />
             </audio>
           </div>
         </td>

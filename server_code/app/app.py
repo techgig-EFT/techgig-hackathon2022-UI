@@ -3,6 +3,7 @@ from azure.cognitiveservices.speech.audio import AudioOutputConfig
 import pyodbc
 from flask_cors import CORS, cross_origin
 from flask import Flask,request
+from azure.storage.blob import BlobServiceClient
 app = Flask(__name__)
 CORS(app, support_credentials=True)
 
@@ -12,7 +13,8 @@ username = 'techgig@employeemgr'
 password = 'gigtech@1234'   
 driver= '{ODBC Driver 18 for SQL Server}'
 conn=  pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
-
+connection_string = "DefaultEndpointsProtocol=https;AccountName=sqlvaexw675lswetoy;AccountKey=cD7BCVR3xJtdA2IxLd5q4ezmobMbUlaBEvE9/gx3ms8ZGJxNfGOrHcxqHGtxVrGbfyUH+RQ80IeI+AStTqBJSQ==;EndpointSuffix=core.windows.net"
+service = BlobServiceClient.from_connection_string(conn_str=connection_string)
 @app.route('/get-employee-details',methods = ['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def getEmployeeDetails():
@@ -27,33 +29,73 @@ def getEmployeeDetails():
 @app.route('/add-employee-details',methods = ['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def addEmployeeDetails():
-    return 'hello'
+    if request.method == 'POST':
+        details=request.json
+        empid=int(details.get("empid"))
+        name=details.get("name")
+        location=details.get("location")
+        contact=details.get("contact")
+        gender=details.get("gender")
+        performance=int(details.get("performance"))
+        notes=details.get("notes")
+        preferredName=details.get("preferredName")
+        phonetic=details.get("phonetic")
+        preferredNameDefault=details.get("preferredNameDefault")
+        cursor=conn.cursor()
+        cursor.execute("INSERT into employee_details (empid,empname,location,contact,gender,performance,notes,preferredName,phonetic,preferredNameDefault,recordedPronunciation) values ('%d','%s','%s','%s','%s','%d','%s','%s','%s','%s','%s')"%(empid,name,location,contact,gender,performance,notes,preferredName,phonetic,preferredNameDefault, 'false'))
+    return {"message":'Success'}
 
 @app.route('/update-employee-details',methods = ['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def updateEmployeeDetails():
-    return 'hello'
+    if request.method == 'POST':
+        details=request.json
+        empid=details.get("empid")
+        preferredname=details.get("preferredname")
+        preferredNameDefault=details.get("preferredNameDefault")
+        phonetic=details.get("phonetic")
+        cursor=conn.cursor()
+        cursor.execute("UPDATE employee_details set preferredName='%s', preferredNameDefault='%s',phonetic='%s' where empid='%s'"%(preferredname,preferredNameDefault,phonetic,empid))
+
+    return {"message":'Success'}
 
 @app.route('/add-pronunciation',methods = ['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def addPronunciation():
     if request.method == 'POST':
-        details=request.json
-        blob=details['blob']
-        empid=details['empid']
+        details=request.form
+        recorded_blob=request.files.get("blob")
+        print(details)
+        print(recorded_blob)
         
+        empid=details.get("empid")
         nametype=details['nametype'] # default or preferred
+        blob_client = service.get_blob_client(container="vulnerability-assessment",blob=empid+"_"+nametype+".wav") 
+        blob_client.upload_blob(recorded_blob,overwrite=True)
+        pronunciationUrl="https://sqlvaexw675lswetoy.blob.core.windows.net/vulnerability-assessment/"+empid+"_"+nametype+".wav"
         if nametype=="default":
-            conn.execute("UPDATE employee_details SET pronunciation=?, recordedPronunciation=true where empid=?",blob,empid)
-        else:
-            conn.execute("UPDATE employee_details SET preferredNamePronunciation=? recordedPronunciation=true where empid=?",blob,empid)
-
-    return 'Success'
+            cursor=conn.cursor()
+            cursor.execute("UPDATE dbo.employee_details SET pronunciation='%s', recordedPronunciation='%s' where empid='%s'"%(pronunciationUrl,'true',empid))
+            return {"message":'Success'}
+        elif nametype=="preferred":
+            cursor=conn.cursor()
+            cursor.execute("UPDATE dbo.employee_details SET  preferred_name_pronunciation='%s', recordedPronunciation='%s' where empid='%s'"%(pronunciationUrl,'true',empid))
+            return {"message":'Success'}
+    return {"message":'Failure'}
 
 @app.route('/get-pronunciation',methods = ['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def getPronunciation():
-    #Cover both system and reecorded pronunciation
+    #Cover only system recorded pronunciation
+    if request.method == 'POST':
+        details=request.json
+        empname=details['name']
+        speech_config = speechsdk.SpeechConfig(subscription="89cdac66a8fc48348a331c52a8fa4de7", region="eastus")
+        audio_config = AudioOutputConfig(use_default_speaker=False)
+        synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
+        print(synthesizer.speak_text_async(empname))
+
+
     return 'hello'
 
 

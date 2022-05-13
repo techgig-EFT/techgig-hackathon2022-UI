@@ -11,6 +11,7 @@ export class EmpaddComponent implements OnInit {
   constructor(private http: HttpClient) {}
   recording: boolean = false;
   pronounce: boolean = false;
+  addemployeeUrl="http://localhost:5000/add-employee-details"
   empdet: IEmployee = {
     empid: '',
     name: '',
@@ -42,6 +43,12 @@ export class EmpaddComponent implements OnInit {
   }
   onSubmit() {
     console.log('Submit came through', this.empdet);
-    //this.http.post(this.url, this.empdet);
+
+        return this.http.post<any>(this.addemployeeUrl,this.empdet).subscribe({
+          next: (result) => {
+            console.log(result);
+          },
+          error: (err) => console.log(err),
+        });;
   }
 }
