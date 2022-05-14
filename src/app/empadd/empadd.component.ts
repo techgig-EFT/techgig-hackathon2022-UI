@@ -21,6 +21,7 @@ export class EmpaddComponent implements OnInit {
   preferredPronunciation:string=""
   host="https://name-pronunciation-api.azurewebsites.net/"
   addemployeeUrl=this.host+"add-employee-details"
+  loading:boolean=false;
   empdet: IEmployee = {
     empid: '',
     name: '',
@@ -35,10 +36,13 @@ export class EmpaddComponent implements OnInit {
     preferredNameDefault: false,
     recordedPronunciation: false,
   };
+
   ngOnInit(): void {}
+
   sanitize(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
+
   pronounceName(employeeName: string,nameType:string="default") {
     this.pronounce = true;
 
@@ -68,20 +72,23 @@ export class EmpaddComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading=true;
     console.log('Submit came through', this.empdet);
         let formdata:any=this.empdet;
         formdata["preferredNameDefault"]=(formdata["preferredNameDefault"]==true)?1:0
         formdata["recordedPronunciation"]=(formdata["recordedPronunciation"]==true)?1:0
-        console.log(formdata)
+        console.log(formdata);
         return this.http.post<any>(this.addemployeeUrl,this.empdet).subscribe({
           next: (result) => {
+            this.loading=false;
             this.message="Employee details added successfully";
             console.log(result);
             window.location.reload();
           },
           error: (err) => 
-          { this.errorMessage="Form details couldnt be submitted"
+          { this.errorMessage="Form details couldnt be submitted";
+            this.loading=false;
             console.log(err)},
-        });;
+        });
   }
 }

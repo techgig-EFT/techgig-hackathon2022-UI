@@ -40,13 +40,20 @@ export class EmplistComponent implements OnInit, OnDestroy {
   updateDetails:boolean = false;
   loginUser = '23890';
   message:string="";
+  optoutmessage:string="";
+  loading:boolean=false;
   removePronunciation(employeeId:number){
+    this.loading=true;
     this.emplistService.removePronunciation(employeeId.toString()).subscribe({
       next: (result) => {
+        this.loading=false;
+        this.optoutmessage="Pronunciation removed successfully";
         console.log(result);
         window.location.reload();
       },
-      error: (err) => console.log(err),
+      error: (err) => 
+      {this.loading=false;
+        console.log(err)},
     });;
   }
   pronounceName(employee: any, index: number) {
@@ -115,6 +122,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.record.record();
   }
   stopRecording(employeeId: number, preferredNameDefault: boolean) {
+    this.loading=true;
     this.recording = false;
     this.employeeId = employeeId;
     this.preferredNameDefault = (preferredNameDefault==true)?1:0;
@@ -131,9 +139,12 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.emplistService.savePronunciation(this.employeeId, nametype, blob).subscribe({
       next: (result) => {
         console.log(result);
+        this.loading=false;
         window.location.reload();
       },
-      error: (err) => console.log(err),
+      error: (err) => 
+      {this.loading=false;
+        console.log(err)},
     });
     
   }
@@ -144,6 +155,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.error = 'Can not play audio in your browser';
   }
   onSubmit(form: NgForm,empid:number) {
+    this.loading=true;
     console.log('Submit came through', form.value);
     let formdata=form.value;
     formdata["empid"]=empid.toString()
@@ -151,10 +163,13 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.emplistService.updateEmployeeDetails(formdata).subscribe({
       next: (result) => {
         console.log(result);
+        this.loading=false;
         this.message="Employee Details updated successfully"
         window.location.reload();
       },
-      error: (err) => console.log(err),
+      error: (err) => 
+      {this.loading=false;
+        console.log(err)},
     });
     this.clearForm();
     //this.http.post(this.url, this.form);
@@ -180,14 +195,18 @@ export class EmplistComponent implements OnInit, OnDestroy {
 
   sub!: Subscription;
   ngOnInit(): void {
+    this.loading=true;
     this.sub = this.emplistService.employees$.subscribe({
       next: (employees) => {
         this.filteredEmployees = employees["employee-details"];
         this.employees = employees["employee-details"];
         this.pronounce.fill(false, 0, employees["employee-details"].length);
         this.pronunciation.fill("", 0, employees["employee-details"].length);
+        this.loading=false;
       },
-      error: (err) => console.log(err),
+      error: (err) => 
+      {this.loading=false;
+        console.log(err)},
     });
   }
   ngOnDestroy(): void {

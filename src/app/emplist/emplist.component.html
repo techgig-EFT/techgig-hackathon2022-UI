@@ -1,3 +1,7 @@
+<div id="overlay" *ngIf="loading">
+    <div class="loader" role="status" >
+    </div>
+</div>
 <div style="background-color: rgb(255, 255, 255)">
   <br /><br />
   <h3 style="text-align: center; color: black">Registered Employees</h3>
@@ -112,6 +116,7 @@
             *ngIf="updateDetails">
             <p></p>
             <button  class="btn btn btn-danger" type="button" (click)="removePronunciation(employee.empid)">Opt out of pronunciation service</button>&nbsp;
+            <div class="alert alert-success" role="alert" *ngIf="optoutmessage">{{optoutmessage}}</div>
             <p></p>
 
             <div class="form-group">

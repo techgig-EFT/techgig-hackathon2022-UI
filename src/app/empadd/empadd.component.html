@@ -1,4 +1,7 @@
-<body>
+  <div id="overlay" *ngIf="loading">
+    <div class="loader" role="status" >
+    </div>
+  </div>
   <div style="background-color: rgb(255, 255, 255)">
     <br /><br />
     <h3 style="text-align: center">1) Add new Employee</h3>
@@ -225,4 +228,3 @@
     <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
   </div>
   </div>
-</body>
