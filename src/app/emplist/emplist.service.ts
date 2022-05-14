@@ -8,11 +8,12 @@ import { IEmployee } from "./employees";
 }
 )
 export class EmplistService{
-private empUrl="http://localhost:5000/get-employee-details";
-private savepronounceUrl="http://localhost:5000/add-pronunciation";
-private getpronounceUrl="http://localhost:5000/get-pronunciation";
-private updateemployeeUrl="http://localhost:5000/update-employee-details";
-private removepronunciationUrl="http://localhost:5000/remove-pronunciation"
+private host="https://name-pronunciation-api.azurewebsites.net/"
+private empUrl=this.host+"get-employee-details";
+private savepronounceUrl=this.host+"add-pronunciation";
+private getpronounceUrl=this.host+"get-pronunciation";
+private updateemployeeUrl=this.host+"update-employee-details";
+private removepronunciationUrl=this.host+"remove-pronunciation"
 
 constructor(private http:HttpClient){}
     employees$:Observable<any>=this.http.get<any>(this.empUrl).pipe(

@@ -19,7 +19,8 @@ export class EmpaddComponent implements OnInit {
   pronounce: boolean = false;
   pronunciation:string=""
   preferredPronunciation:string=""
-  addemployeeUrl="http://localhost:5000/add-employee-details"
+  host="https://name-pronunciation-api.azurewebsites.net/"
+  addemployeeUrl=host+"add-employee-details"
   empdet: IEmployee = {
     empid: '',
     name: '',
