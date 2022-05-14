@@ -106,8 +106,8 @@ export class EmplistComponent implements OnInit, OnDestroy {
   successCallback(stream: any) {
     var options = {
       mimeType: "audio/wav",
-      numberOfAudioChannels: 1,
-      sampleRate: 22050,
+      sampleRate: 44100,
+      bufferSize: 4096
     };
     //Start Actuall Recording
     var StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
@@ -131,7 +131,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.emplistService.savePronunciation(this.employeeId, nametype, blob).subscribe({
       next: (result) => {
         console.log(result);
-        //window.location.reload();
+        window.location.reload();
       },
       error: (err) => console.log(err),
     });
