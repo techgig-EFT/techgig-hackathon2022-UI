@@ -88,7 +88,7 @@
 
           <p></p>
 
-          <div *ngIf="recording">
+          <div *ngIf="!recording && url">
             <p *ngIf="employee.preferredNameDefault">
               Please pronounce your Preferred Name. Recording has started
             </p>
