@@ -25,6 +25,7 @@ export class EmpaddComponent implements OnInit {
     empid: '',
     name: '',
     location: 'Bangalore',
+    country:'',
     contact: '',
     gender: '',
     performance: 5,

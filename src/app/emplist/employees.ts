@@ -2,6 +2,7 @@ export interface IEmployee {
      empid:string,
       name:string,
       location:string,
+      country:string,
       contact:string,
       gender:string,
       performance:number,
