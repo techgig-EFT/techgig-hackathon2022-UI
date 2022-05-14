@@ -95,7 +95,7 @@
             <p *ngIf="!employee.preferredNameDefault">
               Please pronounce your Original Name. Recording has started
             </p>
-            <!--<p *ngIf="employee.preferredNameDefault">
+            <p *ngIf="employee.preferredNameDefault">
               New Recorded Employee provided pronunciation(Preferred Name)
             </p>
             <p *ngIf="!employee.preferredNameDefault">
@@ -103,7 +103,7 @@
             </p>
             <audio controls=""  autoplay>
               <source [src]="sanitize(url)" type="audio/wav" />
-            </audio>-->
+            </audio>
           </div>
           <div *ngIf="!recording && url">
             <div class="alert alert-success" role="alert">Recording successfully stored</div>

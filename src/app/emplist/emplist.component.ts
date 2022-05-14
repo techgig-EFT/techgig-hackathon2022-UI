@@ -131,7 +131,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.emplistService.savePronunciation(this.employeeId, nametype, blob).subscribe({
       next: (result) => {
         console.log(result);
-        window.location.reload();
+        //window.location.reload();
       },
       error: (err) => console.log(err),
     });
