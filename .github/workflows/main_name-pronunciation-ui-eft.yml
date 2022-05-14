@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - namepronunciation-ui
+name: Build and deploy Node.js app to Azure Web App - name-pronunciation-UI-EFT
 
 on:
   push:
@@ -21,10 +21,11 @@ jobs:
         with:
           node-version: '14.x'
 
-      - name: npm install, build
+      - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
+          npm run test --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -49,7 +50,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'namepronunciation-ui'
+          app-name: 'name-pronunciation-UI-EFT'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9FF4A560D8624750B9ABBC078F8D1E02 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7FC2BBF2A9CA4268BABC71A30CB0F192 }}
           package: .
