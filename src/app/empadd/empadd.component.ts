@@ -20,7 +20,7 @@ export class EmpaddComponent implements OnInit {
   pronunciation:string=""
   preferredPronunciation:string=""
   host="https://name-pronunciation-api.azurewebsites.net/"
-  addemployeeUrl=host+"add-employee-details"
+  addemployeeUrl=this.host+"add-employee-details"
   empdet: IEmployee = {
     empid: '',
     name: '',
