@@ -3,6 +3,7 @@
     <br /><br />
     <h3 style="text-align: center">1) Add new Employee</h3>
     <form id="empform" #form="ngForm" class="form-horizontal" (ngSubmit)="onSubmit()" ngNativeValidate>
+      
       <div class="form-group">
         <label class="control-label col-sm-2" for="empid"><b>Employee ID:</b></label>
         <div class="col-sm-10">
@@ -10,44 +11,41 @@
             [(ngModel)]="empdet.empid" required #classtest />
         </div>
       </div>
+
       <p></p>
+
       <div class="form-group">
         <label class="control-label col-sm-2" for="empname"><b>Employee name:</b></label>
         <div class="col-sm-10" style="display: flex">
+
           <input type="text" class="form-control" style="flex: 1" name="name" id="empname"
             placeholder="Enter Employee Name" [(ngModel)]="empdet.name" required />
+
           &nbsp;&nbsp;
+
           <div *ngIf="!empdet.preferredNameDefault">
             <button class="bi bi-volume-up-fill btn btn-primary" type="button" data-toggle="tooltip"
-              data-placement="top" (click)="pronounceName(empdet.empid)" *ngIf="!pronounce"
+              data-placement="top" (click)="pronounceName(empdet.name)" *ngIf="!pronounce"
               title="Pronounce name"></button>
-            <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(empdet.empid)"
+
+            <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName()"
               *ngIf="pronounce" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>
             &nbsp;&nbsp;
-            <button class="bi bi-mic-fill btn btn-info" type="button" data-toggle="tooltip" data-placement="top"
-              (click)="initiateRecording(empdet.empid)" *ngIf="!recording" title="Record pronunciation"></button>
-            <button class="bi bi-mic-fill btn btn-danger" type="button" data-toggle="tooltip" data-placement="top"
-              (click)="stopRecording(empdet.empid)" *ngIf="recording" title="Stop recording"></button>
           </div>
         </div>
-        <div *ngIf="!empdet.preferredNameDefault">
+
+        <div *ngIf="!empdet.preferredNameDefault && pronunciation">
         <div class="col-sm-10" *ngIf="pronounce">
           <div>
             <p>System provided pronunciation(Original Name)</p>
           </div>
           <audio controls="">
-            <source type="audio/wav" />
+            <source [src]="sanitize(pronunciation)" type="audio/wav" />
           </audio>
         </div>
+      </div>
+      </div>
 
-        <div class="col-sm-10" *ngIf="recording">
-          <p>New Recorded Employee provided pronunciation(Original Name)</p>
-          <audio controls="">
-            <source type="audio/wav" />
-          </audio>
-        </div>
-      </div>
-      </div>
 <p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="empmob"><b>Employee Mobile number:</b></label>
@@ -56,6 +54,7 @@
             [(ngModel)]="empdet.contact" required pattern="[0-9]{10}" />
         </div>
       </div>
+
 <p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="loc"><b>Location:</b></label>
@@ -67,6 +66,7 @@
           </select>
         </div>
       </div>
+
 <p></p>
       <label class="control-label col-sm-2"><b>Gender:</b></label>
       <div class="col-sm-10">
@@ -86,6 +86,7 @@
           <label class="form-check-label" for="None"> Prefer not to say </label>
         </div>
       </div>
+
       <br />
       <div class="form-group">
         <label class="control-label col-sm-2" for="performance"><b>Performance:</b></label>
@@ -94,6 +95,7 @@
             placeholder="Enter Performance rating (1-5)" [(ngModel)]="empdet.performance" required min="1" max="5" />
         </div>
       </div>
+
 <p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="preferredName"><b>Preferred Name:</b></label>
@@ -103,31 +105,20 @@
           &nbsp;&nbsp;
           <div *ngIf="empdet.preferredNameDefault">
             <button class="bi bi-volume-up-fill btn btn-primary" type="button" data-toggle="tooltip"
-              data-placement="top" (click)="pronounceName(empdet.empid)" *ngIf="!pronounce"
+              data-placement="top" (click)="pronounceName(empdet.preferredName,'preferred')" *ngIf="!pronounce"
               title="Pronounce name"></button>
-            <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName(empdet.empid)"
+            <button class="bi bi-volume-up-fill btn btn-danger" (click)="stopPronounceName()"
               *ngIf="pronounce" data-toggle="tooltip" data-placement="top" title="Stop Pronunciation"></button>
-            &nbsp;&nbsp;
-            <button class="bi bi-mic-fill btn btn-info" type="button" data-toggle="tooltip" data-placement="top"
-              (click)="initiateRecording(empdet.empid)" *ngIf="!recording" title="Record pronunciation"></button>
-            <button class="bi bi-mic-fill btn btn-danger" type="button" data-toggle="tooltip" data-placement="top"
-              (click)="stopRecording(empdet.empid)" *ngIf="recording" title="Stop recording"></button>
           </div>
         </div>
-<div *ngIf="empdet.preferredNameDefault">
+
+<div *ngIf="empdet.preferredNameDefault && preferredPronunciation">
         <div class="col-sm-10" *ngIf="pronounce">
           <div>
             <p>System provided pronunciation(Preferred Name)</p>
           </div>
           <audio controls="">
-            <source type="audio/wav" />
-          </audio>
-        </div>
-
-        <div class="col-sm-10" *ngIf="recording">
-          <p>New Recorded Employee provided pronunciation(Preferred Name)</p>
-          <audio controls="">
-            <source type="audio/wav" />
+            <source [src]="sanitize(preferredPronunciation)" type="audio/wav" />
           </audio>
         </div>
       </div>
@@ -135,8 +126,7 @@
 <p></p>
 
       <div class="form-group">
-        <label class="control-label col-sm-10" for="preferredName"><b>Provide default name (Please record pronunciation
-            or verify
+        <label class="control-label col-sm-10" for="preferredName"><b>Provide default name (Please verify
             existing pronunciation of preferred name when checked):</b></label>
         <div class="col-sm-10">
           <div class="form-check">
@@ -146,14 +136,16 @@
           </div>
         </div>
       </div>
+
 <p></p>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="phonetic"><b>Phonetic:</b></label>
+        <label class="control-label col-sm-2" for="phonetic"><b>Syllables:</b></label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="phonetic" id="phonetic" placeholder="Enter name phonetic"
+          <input type="text" class="form-control" name="phonetic" id="phonetic" placeholder="Enter name Syllables"
             [(ngModel)]="empdet.phonetic" />
         </div>
       </div>
+
 <p></p>
       <div class="form-group">
         <label class="control-label col-sm-2" for="notes"><b>Notes:</b></label>
@@ -180,10 +172,11 @@
         <th scope="col">Performance</th>
         <th scope="col">Preferred Name</th>
         <th scope="col">Preferred name default</th>
-        <th scope="col">Phonetic</th>
+        <th scope="col">Syllables</th>
         <th scope="col">Notes</th>
       </tr>
     </thead>
+
     <tbody>
       <tr>
         <th scope="row">{{ empdet.empid }}</th>
@@ -207,6 +200,7 @@
 
   <div class="container">
     <div class="vertical-center">
+      <div *ngIf="!message && !errorMessage">
       <h5>
         Please check the employee data before submitting. Please correct the
         pronunciation by adding recording or phonetic if existing pronunciation
@@ -217,5 +211,9 @@
         Add Employee data
       </button>
     </div>
+    
+    <div class="alert alert-success" role="alert" *ngIf="message">{{message}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+  </div>
   </div>
 </body>

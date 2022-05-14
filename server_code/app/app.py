@@ -42,7 +42,8 @@ def addEmployeeDetails():
         phonetic=details.get("phonetic")
         preferredNameDefault=details.get("preferredNameDefault")
         cursor=conn.cursor()
-        cursor.execute("INSERT into employee_details (empid,empname,location,contact,gender,performance,notes,preferredName,phonetic,preferredNameDefault,recordedPronunciation) values ('%d','%s','%s','%s','%s','%d','%s','%s','%s','%s','%s')"%(empid,name,location,contact,gender,performance,notes,preferredName,phonetic,preferredNameDefault, 'false'))
+        cursor.execute("INSERT into employee_details (empid,empname,location,contact,gender,performance,notes,preferredName,phonetic,preferredNameDefault,recordedPronunciation) values ('%d','%s','%s','%s','%s','%d','%s','%s','%s','%d','%d')"%(empid,name,location,contact,gender,performance,notes,preferredName,phonetic,preferredNameDefault, 0))
+        conn.commit()
     return {"message":'Success'}
 
 @app.route('/update-employee-details',methods = ['POST', 'GET'])
@@ -51,12 +52,20 @@ def updateEmployeeDetails():
     if request.method == 'POST':
         details=request.json
         empid=details.get("empid")
-        preferredname=details.get("preferredname")
         preferredNameDefault=details.get("preferredNameDefault")
-        phonetic=details.get("phonetic")
+        if(details.get("phonetic")):
+            phonetic=details.get("phonetic")
+        else:
+            phonetic=""
+
+        if(details.get("preferredname")):
+            preferredname=details.get("preferredname")
+        else:
+            preferredname=""
+       
         cursor=conn.cursor()
         cursor.execute("UPDATE employee_details set preferredName='%s', preferredNameDefault='%s',phonetic='%s' where empid='%s'"%(preferredname,preferredNameDefault,phonetic,empid))
-
+        conn.commit()
     return {"message":'Success'}
 
 @app.route('/add-pronunciation',methods = ['POST', 'GET'])
@@ -76,11 +85,25 @@ def addPronunciation():
         if nametype=="default":
             cursor=conn.cursor()
             cursor.execute("UPDATE dbo.employee_details SET pronunciation='%s', recordedPronunciation='%s' where empid='%s'"%(pronunciationUrl,'true',empid))
+            conn.commit()
             return {"message":'Success'}
         elif nametype=="preferred":
             cursor=conn.cursor()
             cursor.execute("UPDATE dbo.employee_details SET  preferred_name_pronunciation='%s', recordedPronunciation='%s' where empid='%s'"%(pronunciationUrl,'true',empid))
+            conn.commit()
             return {"message":'Success'}
+    return {"message":'Failure'}
+
+@app.route('/remove-pronunciation',methods = ['POST', 'GET'])
+@cross_origin(supports_credentials=True)
+def removePronunciation():
+    if request.method == 'POST':
+        details=request.json
+        empid=details.get("empid")
+        cursor=conn.cursor()
+        cursor.execute("UPDATE dbo.employee_details SET  pronunciation='%s',preferred_name_pronunciation='%s', recordedPronunciation='%d' where empid='%s'"%('','',0,empid))
+        conn.commit()
+        return {"message":'Success'}
     return {"message":'Failure'}
 
 @app.route('/get-pronunciation',methods = ['POST', 'GET'])

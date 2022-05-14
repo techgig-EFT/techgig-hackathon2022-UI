@@ -21,7 +21,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
   employeeId: number = 0;
-  preferredNameDefault: string = "";
+  preferredNameDefault: number = -1;
   blob: any;
   rating: number = 5;
   recording: boolean = false;
@@ -37,10 +37,18 @@ export class EmplistComponent implements OnInit, OnDestroy {
   employees: IEmployee[] = [];
   filteredEmployees: any[] = [];
   errorMessage: string = '';
-  updatePreferredName: boolean = false;
-  updatePhonetic: boolean = false;
+  updateDetails:boolean = false;
   loginUser = '23890';
-
+  message:string="";
+  removePronunciation(employeeId:number){
+    this.emplistService.removePronunciation(employeeId.toString()).subscribe({
+      next: (result) => {
+        console.log(result);
+        window.location.reload();
+      },
+      error: (err) => console.log(err),
+    });;
+  }
   pronounceName(employee: any, index: number) {
     this.pronounce[index] = true;
 
@@ -58,9 +66,9 @@ export class EmplistComponent implements OnInit, OnDestroy {
         error: (err) => console.log(err),
       });*/
       if(employee.preferredNameDefault)
-      name=employee.preferredname
+        name=employee.preferredname
       else
-      name=employee.empname
+        name=employee.empname
 
       const audioConfig = AudioConfig.fromDefaultSpeakerOutput();
       const synthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
@@ -109,7 +117,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
   stopRecording(employeeId: number, preferredNameDefault: boolean) {
     this.recording = false;
     this.employeeId = employeeId;
-    this.preferredNameDefault = preferredNameDefault?.toString();
+    this.preferredNameDefault = (preferredNameDefault==true)?1:0;
     this.record.stop(this.processRecording.bind(this));
     //update employee.recordedPronunciatio to true for the given employee id
   }
@@ -123,6 +131,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
     this.emplistService.savePronunciation(this.employeeId, nametype, blob).subscribe({
       next: (result) => {
         console.log(result);
+        window.location.reload();
       },
       error: (err) => console.log(err),
     });
@@ -138,10 +147,12 @@ export class EmplistComponent implements OnInit, OnDestroy {
     console.log('Submit came through', form.value);
     let formdata=form.value;
     formdata["empid"]=empid.toString()
-    //formdata["preferredNameDefault"]=(formdata["preferredNameDefault"]==true)?1:0;
+    console.log(formdata);
     this.emplistService.updateEmployeeDetails(formdata).subscribe({
       next: (result) => {
         console.log(result);
+        this.message="Employee Details updated successfully"
+        window.location.reload();
       },
       error: (err) => console.log(err),
     });
@@ -150,8 +161,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
   }
 
   clearForm() {
-    this.updatePreferredName = false;
-    this.updatePhonetic = false;
+    this.updateDetails=false;
   }
   get searchid(): string {
     return this._searchid;

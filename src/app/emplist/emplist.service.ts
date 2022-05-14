@@ -11,7 +11,9 @@ export class EmplistService{
 private empUrl="http://localhost:5000/get-employee-details";
 private savepronounceUrl="http://localhost:5000/add-pronunciation";
 private getpronounceUrl="http://localhost:5000/get-pronunciation";
-private updateemployeeUrl="http://localhost:5000/update-employee-details"
+private updateemployeeUrl="http://localhost:5000/update-employee-details";
+private removepronunciationUrl="http://localhost:5000/remove-pronunciation"
+
 constructor(private http:HttpClient){}
     employees$:Observable<any>=this.http.get<any>(this.empUrl).pipe(
         shareReplay(1),
@@ -35,5 +37,9 @@ constructor(private http:HttpClient){}
     updateEmployeeDetails(form:any)
     {
         return this.http.post<any>(this.updateemployeeUrl,form);
+    }
+    removePronunciation(employeeId:string)
+    {
+        return this.http.post<any>(this.removepronunciationUrl,{"empid":employeeId});
     }
 }
