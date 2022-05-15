@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: ./dist
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,4 +52,4 @@ jobs:
           app-name: 'name-pronunciation-UI-EFT'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6D37517A1CCB48D6A4ECBA2216EB63B6 }}
-          package: .
+          package: ./dist/name-pronunciation-tool

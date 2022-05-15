@@ -32,7 +32,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
       auth: {
         clientId: '16161d3c-5487-465a-9f74-53ff04c1d432',
         authority: 'https://login.microsoftonline.com/e5727ff0-84f8-42ba-9c30-de24a8e8ceec', // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
-        redirectUri: 'https://name-pronunciation.vercel.app/'// This is your redirect URI
+        redirectUri: 'https://name-pronunciation-ui-eft.azurewebsites.net'// This is your redirect URI
       },
       cache: {
         cacheLocation: 'localStorage',

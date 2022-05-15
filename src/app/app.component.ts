@@ -44,6 +44,6 @@ export class AppComponent implements OnInit,OnDestroy {
   logout()
   {
     this.userLoggedin=false;
-    this.authService.logoutRedirect({postLogoutRedirectUri:"https://name-pronunciation.vercel.app/"});
+    this.authService.logoutRedirect({postLogoutRedirectUri:"https://name-pronunciation-ui-eft.azurewebsites.net"});
   }
 }
