@@ -81,6 +81,15 @@
 </div>
 
 <p></p>
+<div class="form-group">
+  <label class="control-label col-sm-2" for="email"><b>Employee Email:</b></label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" name="email" id="email" placeholder="Enter Email"
+      [(ngModel)]="empdet.email" required/>
+  </div>
+</div>
+
+<p></p>
       <label class="control-label col-sm-2"><b>Gender:</b></label>
       <div class="col-sm-10">
         <div class="form-check">
@@ -152,9 +161,9 @@
 
 <p></p>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="phonetic"><b>Syllables:</b></label>
+        <label class="control-label col-sm-2" for="phonetic"><b>Phonetic:</b></label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="phonetic" id="phonetic" placeholder="Enter name Syllables"
+          <input type="text" class="form-control" name="phonetic" id="phonetic" placeholder="Enter name Phonetic"
             [(ngModel)]="empdet.phonetic" />
         </div>
       </div>
@@ -185,7 +194,7 @@
         <th scope="col">Performance</th>
         <th scope="col">Preferred Name</th>
         <th scope="col">Preferred name default</th>
-        <th scope="col">Syllables</th>
+        <th scope="col">Phonetic</th>
         <th scope="col">Notes</th>
       </tr>
     </thead>

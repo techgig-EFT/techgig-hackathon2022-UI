@@ -26,9 +26,12 @@ body {
   
   .about-section {
     padding: 50px;
-    text-align: center;
+    
     background-color: #f4f0ed;
     color: black;
+    display: flex;
+    justify-content:space-between;
+    
   }
   
   .container {
@@ -66,4 +69,17 @@ body {
       width: 100%;
       display: block;
     }
+  }
+  .circle
+  {
+  margin:auto;
+  vertical-align: middle;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  display: table-cell;
+  text-align: center;
+  background-color:burlywood;
+  font-size: 25px;
+  border: 5px solid #FFFF00;
   }

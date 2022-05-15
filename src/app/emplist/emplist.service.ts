@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import {tap, shareReplay} from 'rxjs/operators';
 import { IEmployee } from "./employees";
 @Injectable(
@@ -8,6 +8,7 @@ import { IEmployee } from "./employees";
 }
 )
 export class EmplistService{
+public isUserLoggedin:Subject<boolean>=new Subject<boolean>();
 private host="https://name-pronunciation-api.azurewebsites.net/"
 private empUrl=this.host+"get-employee-details";
 private savepronounceUrl=this.host+"add-pronunciation";

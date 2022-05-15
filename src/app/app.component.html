@@ -1,12 +1,9 @@
 <div style="background-color:#a53439;color:white;">
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<nav style="display: flex;justify-content:space-between" class="navbar navbar-expand-sm bg-dark navbar-dark">
 
-
+<div>
   <!-- Links -->
   <ul class="navbar-nav">
-    <a class="navbar-brand" href="#">
-      <img src="assets/tg.jpg" width="30" height="30" alt="">
-    </a>
     <li class="nav-item">
       <a [routerLink]="['/about-me']" class="nav-link">Home</a>
     </li>
@@ -17,6 +14,11 @@
       <a [routerLink]="['/add-employee']" class="nav-link">Add Employee</a>
     </li>
   </ul>
+</div>
+  <div>
+    <button type="submit" class="btn navbar-btn btn-danger" name="logout" id="logout" *ngIf="userLoggedin" (click)="logout()" value="Logout">Logout</button>     
+  &nbsp;
+  </div>
 </nav><br><br>
 <h2 style="text-align: center;">Name Pronunciation tool</h2>
 <p></p>

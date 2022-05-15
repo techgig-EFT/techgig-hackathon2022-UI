@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AudioConfig, SpeechConfig, SpeechSynthesizer } from 'microsoft-cognitiveservices-speech-sdk';
+import { EmplistService } from '../emplist/emplist.service';
 import { IEmployee } from '../emplist/employees';
 
 const speechConfig = SpeechConfig.fromSubscription("89cdac66a8fc48348a331c52a8fa4de7", "eastus");
@@ -11,8 +12,18 @@ const speechConfig = SpeechConfig.fromSubscription("89cdac66a8fc48348a331c52a8fa
   styleUrls: ['./empadd.component.css'],
 })
 export class EmpaddComponent implements OnInit {
-  constructor(private http: HttpClient,private domSanitizer: DomSanitizer) {}
-  
+
+  constructor(private http: HttpClient,private domSanitizer: DomSanitizer,private emplistService:EmplistService) {}
+  isUserLoggedin:boolean=false;
+  ngOnInit(): void {
+    this.emplistService.isUserLoggedin.subscribe(x=>
+     {
+      console.log(x);
+      this.isUserLoggedin=x;
+     }
+      )
+    
+  }
   recording: boolean = false;
   message:string="";
   errorMessage:string="";
@@ -28,6 +39,7 @@ export class EmpaddComponent implements OnInit {
     location: 'Bangalore',
     country:'',
     contact: '',
+    email:'',
     gender: '',
     performance: 5,
     notes: '',
@@ -37,7 +49,7 @@ export class EmpaddComponent implements OnInit {
     recordedPronunciation: false,
   };
 
-  ngOnInit(): void {}
+
 
   sanitize(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);

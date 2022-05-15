@@ -4,6 +4,7 @@ export interface IEmployee {
       location:string,
       country:string,
       contact:string,
+      email:string,
       gender:string,
       performance:number,
       notes:string,

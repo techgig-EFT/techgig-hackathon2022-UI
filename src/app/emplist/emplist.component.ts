@@ -6,17 +6,19 @@ import { EmplistService } from './emplist.service';
 import { IEmployee } from './employees';
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 //Find your key and resource region under the 'Keys and Endpoint' tab in your Speech resource in Azure Portal
 //Remember to delete the brackets <> when pasting your key and region!
 const speechConfig = SpeechConfig.fromSubscription("89cdac66a8fc48348a331c52a8fa4de7", "eastus");
-
+const GRAPH_ENDPOINT='https://graph.microsoft.com/v1.0/me';
 @Component({
   selector: 'app-emplist',
   templateUrl: './emplist.component.html',
   styleUrls: ['./emplist.component.css'],
 })
 export class EmplistComponent implements OnInit, OnDestroy {
-  constructor(private emplistService: EmplistService, private domSanitizer: DomSanitizer) { }
+  isUserLoggedin=false;
+  constructor(private emplistService: EmplistService, private domSanitizer: DomSanitizer,private http:HttpClient) {}
   sanitize(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
@@ -38,7 +40,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
   filteredEmployees: any[] = [];
   errorMessage: string = '';
   updateDetails:boolean = false;
-  loginUser = '23890';
+  loginUser:string = "";
   message:string="";
   optoutmessage:string="";
   loading:boolean=false;
@@ -195,7 +197,16 @@ export class EmplistComponent implements OnInit, OnDestroy {
 
   sub!: Subscription;
   ngOnInit(): void {
+    this.emplistService.isUserLoggedin.subscribe(x=>
+      {
+       this.isUserLoggedin=x;
+      }
+      )
     this.loading=true;
+    this.http.get<any>(GRAPH_ENDPOINT).subscribe(
+      (data)=>{
+       this.loginUser=data.userPrincipalName}
+    )
     this.sub = this.emplistService.employees$.subscribe({
       next: (employees) => {
         this.filteredEmployees = employees["employee-details"];
