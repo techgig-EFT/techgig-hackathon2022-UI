@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'name-pronunciation-UI-EFT'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7FC2BBF2A9CA4268BABC71A30CB0F192 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6D37517A1CCB48D6A4ECBA2216EB63B6 }}
           package: .
