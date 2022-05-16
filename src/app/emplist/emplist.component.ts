@@ -41,6 +41,8 @@ export class EmplistComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   updateDetails:boolean = false;
   loginUser:string = "";
+  page:number=1;
+  pageSize:number=5;
   message:string="";
   optoutmessage:string="";
   loading:boolean=false;
@@ -74,6 +76,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
         },
         error: (err) => console.log(err),
       });*/
+      this.loading=true;
       if(employee.preferredNameDefault)
         name=employee.preferredname
       else
@@ -85,6 +88,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
       synthesizer.speakTextAsync(
         name,
         result => {
+          this.loading=false;
           if (result) {
             this.pronunciation[index] = URL.createObjectURL(new Blob([new Uint8Array(result.audioData)]));
           }
@@ -93,6 +97,7 @@ export class EmplistComponent implements OnInit, OnDestroy {
         error => {
           console.log(error);
           synthesizer.close();
+          this.loading=false;
         });
     }
   }

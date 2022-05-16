@@ -1,0 +1,21 @@
+
+.title{
+    background-color: #a53439;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.my-navbar{
+    color: #17252A;
+}
+
+ul.navbar-nav a:hover{
+    color: #8d9923;
+    font-weight: bold;
+}
+
+.nav-link{
+    color: #3AAfA9;
+}

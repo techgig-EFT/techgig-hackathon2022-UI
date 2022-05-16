@@ -57,6 +57,7 @@ export class EmpaddComponent implements OnInit {
 
   pronounceName(employeeName: string,nameType:string="default") {
     this.pronounce = true;
+    this.loading=true;
 
     const audioConfig = AudioConfig.fromDefaultSpeakerOutput();
     const synthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
@@ -64,6 +65,7 @@ export class EmpaddComponent implements OnInit {
     synthesizer.speakTextAsync(
       employeeName,
       result => {
+        this.loading=false;
         if (result) {
           if(nameType=="preferred")
           this.preferredPronunciation = URL.createObjectURL(new Blob([new Uint8Array(result.audioData)]));
@@ -73,6 +75,7 @@ export class EmpaddComponent implements OnInit {
         synthesizer.close();
       },
       error => {
+        this.loading=false;
         console.log(error);
         synthesizer.close();
       });

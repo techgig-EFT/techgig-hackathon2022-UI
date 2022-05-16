@@ -3,10 +3,10 @@
     <div class="loader" role="status" >
     </div>
   </div>
-  <div style="background-color: rgb(255, 255, 255)">
+  <div  style="background-color: rgb(255, 255, 255)">
     <br /><br />
-    <h3 style="text-align: center">1) Add new Employee</h3>
-    <form id="empform" #form="ngForm" class="form-horizontal" (ngSubmit)="onSubmit()" ngNativeValidate>
+    <h3 style="text-align: center">Employee Registration</h3>
+    <form id="empform" #form="ngForm" class="form-horizontal card" (ngSubmit)="onSubmit()" ngNativeValidate>
       
       <div class="form-group">
         <label class="control-label col-sm-2" for="empid"><b>Employee ID:</b></label>
@@ -179,8 +179,9 @@
   </div>
 
   <br /><br />
+  <div class="card">
   <h3 style="text-align: center">
-    2) Check the employee details before submitting:
+    Check the employee details before submitting:
   </h3>
   <br />
   <table class="table table-striped">
@@ -216,8 +217,10 @@
       </tr>
     </tbody>
   </table>
+</div>
   <br />
-  <h3 style="text-align: center">3) Submit to add the details:</h3>
+  <div class="card">
+  <h3 style="text-align: center">Submit to add the details:</h3>
   <br />
 
   <div class="container">
@@ -238,4 +241,6 @@
     <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
   </div>
   </div>
+  </div>
+
 </body>

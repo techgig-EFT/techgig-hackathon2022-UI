@@ -1,5 +1,10 @@
-<div style="background-color:#a53439;color:white;">
-<nav style="display: flex;justify-content:space-between" class="navbar navbar-expand-sm bg-dark navbar-dark">
+<div class="title">
+  <h2 style="color: white">Name Pronunciation tool</h2>
+ </div>
+ <div style="margin-top:-22px;margin-bottom:-22px"> <hr style="border: 5px solid gold;border-radius:2px;"></div>
+
+<div class="my-navbar">
+<nav class="navbar navbar-expand-sm" style="height:50px;display: flex;justify-content:space-between" class="navbar navbar-expand-sm bg-dark navbar-dark">
 
 <div>
   <!-- Links -->
@@ -19,11 +24,7 @@
     <button type="submit" class="btn navbar-btn btn-danger" name="logout" id="logout" *ngIf="userLoggedin" (click)="logout()" value="Logout">Logout</button>     
   &nbsp;
   </div>
-</nav><br><br>
-<h2 style="text-align: center;">Name Pronunciation tool</h2>
-<p></p>
-<hr style="border: 5px solid gold;border-radius:2px;">
+</nav>
 
 <router-outlet></router-outlet>
-
 </div>
