@@ -52,4 +52,4 @@ jobs:
           app-name: 'name-pronunciation-UI-EFT'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_18357901F9F148CFA1D3DB702A9F6C80 }}
-          package: ./dist/name-pronunciation-tool
+          package: ./name-pronunciation-tool
